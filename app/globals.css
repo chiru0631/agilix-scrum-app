@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -120,3 +122,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.dotted-background{
+  background-color: rgb(5, 5, 51);
+  background-image: radial-gradient( rgb(64, 156, 19) 1px, transparent 1px);
+  background-size: 30px 30px;              
+}
+
+
+
