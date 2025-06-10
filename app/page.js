@@ -1,7 +1,7 @@
 
 
 
-import { BarChart, ChevronRight } from "lucide-react";
+import { ArrowRight, BarChart, ChevronRight } from "lucide-react";
 import Hero from "@/components/hero";
 import CompanyCarousel from "@/components/company-carousel";
 import { Layout, Calendar } from "lucide-react";
@@ -14,6 +14,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+
 
 
 const features = [
@@ -85,6 +88,21 @@ export default function Home() {
           ))}
   
 </Accordion>
+        </div>
+      </section>
+
+      <section className="py=20 text-center px-5">
+        <div className="container mx-auto">
+        <h3 className="text-3xl font-bold mb-8 mt-12 text-center">Ready to take your project management to the next level?</h3>
+        
+        <p className="text-xl mb-12">
+          Join thousands of developers who trust Agilix for their project management needs.
+        </p>
+        <Link href={"/onboarding"}>
+          <Button size="lg" className="animate-bounce">
+            Start For Free <ArrowRight className="ml-2 h-5 w-5"/>
+          </Button>
+        </Link>
         </div>
       </section>
     </div>
