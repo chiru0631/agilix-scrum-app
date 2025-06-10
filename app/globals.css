@@ -128,6 +128,34 @@
   background-image: radial-gradient( rgb(64, 156, 19) 1px, transparent 1px);
   background-size: 30px 30px;              
 }
+@keyframes shine {
+    0% {
+      left: -75%;
+    }
+    100% {
+      left: 125%;
+    }
+  }
+
+  .shine-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(120deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.1) 100%);
+    transform: skewX(-25deg);
+  }
+
+  .shine-effect:hover::before {
+    animation: shine 0.8s ease-in-out;
+  }
 
 
 

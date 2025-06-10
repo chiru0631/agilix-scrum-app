@@ -1,12 +1,20 @@
-"use client";
 
-import { Button } from "@/components/ui/button";
+
+
 import { BarChart, ChevronRight } from "lucide-react";
-import Link from "next/link";
-import { TypeAnimation } from 'react-type-animation';
+import Hero from "@/components/hero";
+import CompanyCarousel from "@/components/company-carousel";
 import { Layout, Calendar } from "lucide-react";
 import React from "react";
 import { Card,CardContent } from "@/components/ui/card";
+import faqs from "@/data/faqs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
 
 const features = [
   {
@@ -30,39 +38,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/*Hero Section*/} 
-      <section className="container mx-auto py-20 text-center">
-        <h1 className="text-6xl sm:text-7xl lg:text-8xl font-extrabold gradient-title pb-6 flex flex-col font-extrabold bg-gradient-to-br from-blue-500 via-blue-100 to from-blue-400 bg-clip-text
-          tracking-tighter text-transparent pr-2 pb-2;">Streamline Your Workflow<br/>
-          <span className="flex justify-center">
-  With&nbsp;
-  <TypeAnimation
-    sequence={[
-      'Agilix...',
-      1000,
-      '',
-      500,
-    ]}
-    wrapper="span"
-    cursor={true}
-    repeat={Infinity}
-  />
-</span>
-        </h1>
-        <p  className="text-greay-300 mb-10 max-w-3xl mx-auto">
-          Agilix is a project management tool designed for developers, helping you to manage your projects efficiently and effectively.
-        </p>
-        <Link href="/onboarding">
-          <Button size="lg" className={"mr-4"}>
-            Get Started
-            <ChevronRight size={18} className="ml-1"/>
-          </Button>
-        </Link>
-        <Link href="#features" >
-          <Button size="lg" variant="outline" className="mr-4">
-            Learn More
-            
-          </Button>
-        </Link>
+      <section>
+        <Hero/>
       </section>
 
       <section id="features" className="bg-gray-900 py-20 px-5">
@@ -71,9 +48,9 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             return(
-              <Card key={index} className="bg-gray-800 hover:bg-gray-600">
-                <CardContent className="pt-6">
-                  <feature.icon className="h-12 w-12 mb-4 text-blue-300"/>
+              <Card key={index} className="bg-gray-800 shine-effect hover:bg-gray-700 transition-colors duration-300">
+              <CardContent className="pt-6">
+                  <feature.icon className="h-12 w-12 mb-4 text-blue-300" />
                   <h4 className="text-xl font-semibold mb-2">{feature.title}</h4>
                   <p className="text-gray-300">{feature.description}</p>
                 </CardContent>
@@ -83,6 +60,31 @@ export default function Home() {
           
           
         </div>
+        </div>
+      </section>
+
+      <section className="py=20">
+        <div className="container mx-auto">
+        <h3 className="text-3xl font-bold mb-12 mt-12 text-center">Trused by Industry Leaders</h3>
+        <CompanyCarousel/>
+        </div>
+      </section>
+
+      <section className="bg-gray-900 py-20 px-5">
+        <div className="container mx-auto">
+        <h3 className="text-3xl font-bold mb-12 mt-12 text-center">Frequently Asked Questions </h3>
+        <Accordion type="single" collapsible className="w-full">
+          {faqs.map((faq,index)=>(
+            <AccordionItem key={index} value={`item-${index}`}>
+
+    <AccordionTrigger>{faq.question}</AccordionTrigger>
+    <AccordionContent>
+      {faq.answer}
+    </AccordionContent>
+  </AccordionItem>
+          ))}
+  
+</Accordion>
         </div>
       </section>
     </div>
