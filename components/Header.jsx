@@ -4,7 +4,11 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { PenBox } from "lucide-react";
 import UserMenu from "@/components/user-menu";
-const Header = () => {
+import { checkUser } from "@/lib/checkUser";
+const Header = async() => {
+
+  await checkUser();
+  // This function checks if the user is logged in and creates a new user if not.
   return (
     <header className="container mx-auto">
 
