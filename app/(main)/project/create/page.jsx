@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 
 const CreateProjectPage = () => {
 
-  const {isLoaded: isOrgLoaded, membership }=useOrganization();
+  const {isLoaded: isOrgLoaded, membership, organization }=useOrganization();
 
   const{ isLoaded: isUserLoaded }=useUser();
   const [isAdmin, setIsAdmin]=useState(false);
@@ -52,9 +52,13 @@ const CreateProjectPage = () => {
 
   
 
-  const onSubmit =async(data)=>{
-    createProjectFn(data);
-  }
+  const onSubmit = async (data) => {
+    if (!organization) {
+      toast.error("No organization selected");
+      return;
+    }
+    createProjectFn({ ...data, orgId: organization.id });
+  };
 
  
 
