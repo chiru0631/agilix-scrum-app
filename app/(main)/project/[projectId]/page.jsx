@@ -1,6 +1,7 @@
 import React from 'react'
 import { getProject } from '@/actions/projects';
 import { notFound } from 'next/navigation';
+import SprintCreationForm from '../_components/create-sprint';
 
 const ProjectPage = async (props) => {
   const { projectId } = props.params;
@@ -15,8 +16,14 @@ const ProjectPage = async (props) => {
   if (!project) {
     notFound();
   }
-  return <div>
+  return <div className='container mx-auto'>
       {/*Sprint Creation*/}
+      <SprintCreationForm
+      projectTitle={project.name}
+      projectId={project.id}
+      projectKey={project.key}
+      sprintkey={project.sprints?.length +1}
+      />
 
       {/*sprint Board*/}
       {project.sprints.length>0?(
