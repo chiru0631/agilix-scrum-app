@@ -17,6 +17,7 @@ import useFetch from '@/hooks/use-fetch';
 import { createSprint } from '@/actions/sprints';
 import { se } from 'date-fns/locale';
 import { toast } from 'sonner';
+import { useOrganization } from "@clerk/nextjs";
 
 
 
@@ -32,6 +33,7 @@ const SprintCreationForm = ({
     from: new Date(),
     to: addDays(new Date(), 30),
   });
+  const { organization } = useOrganization();
 
   const router = useRouter();
 
@@ -44,19 +46,26 @@ const SprintCreationForm = ({
     },
   });
 
-  const {loading: createSprintLoading, fn: createSprintFn}=useFetch(createSprint);
+ 
 
-  const onSubmit = async (data) => {
-    await createSprintFn(projectId, {
-      ...data,
-      startDate: dateRange.from,
-      endDate: dateRange.to,
+  const { loading: createSprintLoading, fn: createSprintFn } = useFetch(createSprint);
 
+const onSubmit = async (data) => {
+  if (!organization) {
+    toast.error("No organization selected");
+    return;
+  }
+  await createSprintFn({
+    projectId,
+    orgId: organization.id, // pass orgId
+    name: data.name,
+    startDate: dateRange.from,
+    endDate: dateRange.to,
   });
   setShowForm(false);
   toast.success("Sprint created successfully");
   router.refresh();
-}
+};
 
   
 
