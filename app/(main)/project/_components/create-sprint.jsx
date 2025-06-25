@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Button } from '@/components/ui/button';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { useRouter } from 'next/navigation';
 import { addDays, format } from 'date-fns';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,9 @@ import { Controller } from 'react-hook-form';
 import { Chevron, DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css"; // Import DayPicker styles
 import useFetch from '@/hooks/use-fetch';
+import { createSprint } from '@/actions/sprints';
+import { se } from 'date-fns/locale';
+import { toast } from 'sonner';
 
 
 
@@ -28,7 +31,9 @@ const SprintCreationForm = ({
   const [dateRange,setDateRange]=useState({
     from: new Date(),
     to: addDays(new Date(), 30),
-  })
+  });
+
+  const router = useRouter();
 
   const {register, handleSubmit, formState:{errors},control} =useForm({
     resolver: zodResolver(sprintSchema),
@@ -38,6 +43,20 @@ const SprintCreationForm = ({
       endDate: dateRange.to,
     },
   });
+
+  const {loading: createSprintLoading, fn: createSprintFn}=useFetch(createSprint);
+
+  const onSubmit = async (data) => {
+    await createSprintFn(projectId, {
+      ...data,
+      startDate: dateRange.from,
+      endDate: dateRange.to,
+
+  });
+  setShowForm(false);
+  toast.success("Sprint created successfully");
+  router.refresh();
+}
 
   
 
@@ -50,7 +69,7 @@ const SprintCreationForm = ({
     </Button>
   </div>{showForm  && <Card className='pt-4 mb-4'>
     <CardContent>
-      <form className='flex gap-4 items-end'>
+      <form className='flex gap-4 items-end' onSubmit={handleSubmit(onSubmit)}>
         <div className='flex-1'>
           <label htmlFor="name"
           className='block text-sm font-medium mb-1'>Sprint Name</label>
@@ -112,8 +131,8 @@ const SprintCreationForm = ({
           
           />
         </div>
-        <Button>
-          Create Sprint
+        <Button type='submit' disabled={createSprintLoading} >
+          {createSprintLoading ? "Creating Sprint..." : "Create Sprint"}
         </Button>
 
 
