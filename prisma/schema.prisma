@@ -42,7 +42,7 @@ model Project {
 
 model Sprint {
   id        String   @id @default(cuid())
-  name      String   @unique
+  name      String   
   startDate DateTime
   endDate   DateTime
   status    SprintStatus @default(PLANNED)
