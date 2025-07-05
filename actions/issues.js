@@ -1,9 +1,13 @@
+"use server"
+
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 
-export async function createIssue(projectId,data){
-    const {userId,orgId} = await auth();
-    if(!userId || !orgId){
+export async function createIssue(projectId, data) {
+    const { userId } = await auth();
+    const orgId = data.orgId; // get orgId from the data
+
+    if (!userId || !orgId) {
         throw new Error("User not authenticated or organization not found");
     }
 
@@ -44,4 +48,23 @@ export async function createIssue(projectId,data){
     });
 
     return issue;
+}
+
+export async function getIssuesForSprint(sprintId, orgIdFromClient) {
+  const { userId } = await auth();
+
+  if (!userId || !orgIdFromClient) {
+    throw new Error("Unauthorized");
+  }
+
+  const issues = await db.issue.findMany({
+    where: { sprintId: sprintId },
+    orderBy: [{ status: "asc" }, { order: "asc" }],
+    include: {
+      assignee: true,
+      reporter: true,
+    },
+  });
+
+  return issues;
 }

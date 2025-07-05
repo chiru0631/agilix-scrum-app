@@ -126,3 +126,9 @@
   background-image: radial-gradient(#0aed6c 1px, transparent 1px);
   background-size: 30px 30px;
 }
+
+.wmde-markdown ul{
+  list-style-type: disc;
+  padding-left: 15px !important;
+  color: wheat;
+}
